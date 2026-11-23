@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ service.name }} | Telangana Government Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <h2>Telangana Government Services Assistant</h2>
+            <p>Your guide to government services in Telangana</p>
+        </div>
+    </header>
+
+    <main class="container service-details">
+
+        <a href="/" class="back-link">← Back to Home</a>
+
+        <section class="service-card">
+
+            <h1>{{ service.name }}</h1>
+
+{% if session.get('user_id') %}
+    <form method="POST"
+          action="{{ url_for('add_favorite_route', service_key=service.service_key) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit">
+            ⭐ Save to My Favourites
+        </button>
+    </form>
+{% else %}
+    <p>
+        <a href="{{ url_for('login') }}">
+            Login to save this service to your favourites
+        </a>
+    </p>
+{% endif %}
+
+            <p>{{ service.description }}</p>
+
+            <h2>Service Information</h2>
+            <p>{{ service.notice }}</p>
+
+            <h2>What can you find here?</h2>
+            <ul>
+                {% for item in service.details %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>How to Access This Service</h2>
+
+            {% if service.portal_instructions %}
+                <ul>
+                    {% for instruction in service.portal_instructions %}
+                        <li>{{ instruction }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if 'scholarship' in service.name|lower %}
+
+                <h2>Additional Scholarship Information</h2>
+
+                <p>Use the following official Telangana ePASS resources
+                   to understand scholarship services and application requirements.</p>
+
+                <ul>
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/SchoalrshipsOffered.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Scholarships Offered
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/WhoareEligible.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Who Are Eligible?
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/CoursesOffered.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Eligible Courses
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/CollegesEligible.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Eligible Colleges
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/TimeLine.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Scholarship Timeline
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/ReasonsForRejection.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Reasons for Application Rejection
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/studentfaqs.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Student FAQs and Instructions
+                        </a>
+                    </li>
+                </ul>
+
+                <h2>Available Scholarship Services</h2>
+
+                <ul>
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/epassonlinelinks.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Post-Matric Scholarship Services
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/PrematricLinks.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Pre-Matric Scholarship Services
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/OverseasLinks.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Overseas Scholarship Services
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://telanganaepass.cgg.gov.in/CollegeServices.do"
+                           target="_blank" rel="noopener noreferrer">
+                            Skill Upgradation Services
+                        </a>
+                    </li>
+                </ul>
+
+                <p>
+                    <strong>Important:</strong>
+                    Eligibility, required documents, application dates
+                    and scholarship conditions may change. Always check
+                    the latest information on the official portal.
+                </p>
+
+            {% endif %}
+
+            <h2>Official Government Website</h2>
+            <p>{{ service.portal_name }}</p>
+
+            <a href="{{ service.official_url }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="official-button">
+                Visit Official Website →
+            </a>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Telangana Government Services Assistant</p>
+        <p>Information and links to Telangana government services</p>
+    </footer>
+
+</body>
+</html>

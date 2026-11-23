@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ category.name }} - Telangana Government Services</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <h1>{{ category.name }}</h1>
+
+    <p>{{ category.description }}</p>
+
+    <h2>Available Services</h2>
+
+    {% if category_services %}
+
+        {% for service in category_services %}
+
+            <div class="service-card">
+                <h3>{{ service.name }}</h3>
+
+                <p>{{ service.description }}</p>
+
+                <a href="{{ url_for('details', service_key=service.key) }}">
+                    View Details
+                </a>
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Services in this category will be added soon.</p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('home') }}">Back to Home</a>
+
+</body>
+</html>

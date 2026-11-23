@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Smart Telangana Government Services Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Create Account</h1>
+        <p>Register to use the Smart Telangana Government Services Assistant.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username"
+                   required minlength="3" maxlength="50">
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required maxlength="254">
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"
+                   required minlength="8">
+
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password"
+                   name="confirm_password" required minlength="8">
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Already have an account?
+            <a href="{{ url_for('login') }}">Login here</a>
+        </p>
+
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+
+</body>
+</html>

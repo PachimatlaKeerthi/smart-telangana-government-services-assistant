@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Government Services Results</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Government Services Found</h1>
+
+        <p>Search result for: {{ search_text }}</p>
+
+        {% if results %}
+
+            {% for item in results %}
+
+                <div class="service-card">
+
+                    <h2>{{ item.name }}</h2>
+
+                    <p>{{ item.description }}</p>
+
+                    {% if item.type == "category" %}
+
+                        <a href="{{ url_for('category', category_key=item.key) }}">
+                            Explore Category
+                        </a>
+
+                    {% else %}
+
+                        <a href="{{ url_for('details', service_key=item.key) }}">
+                            View Details
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <h2>No matching services or categories found.</h2>
+
+        {% endif %}
+
+        <a href="{{ url_for('home') }}">Back to Home</a>
+
+    </main>
+
+</body>
+</html>

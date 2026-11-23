@@ -1,0 +1,151 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Account - Smart Telangana Government Services Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <h2>Telangana Government Services Assistant</h2>
+            <p>Your guide to government services in Telangana</p>
+        </div>
+    </header>
+
+    <main class="container account-container">
+
+        <div class="account-heading">
+            <h1>My Account</h1>
+            <p>Manage your profile and saved government services.</p>
+        </div>
+
+        <!-- Profile Information -->
+        <section class="profile-details">
+
+            <h2>👤 Profile Information</h2>
+
+            <div class="profile-info-row">
+                <strong>Username</strong>
+                <span>{{ username }}</span>
+            </div>
+
+            <div class="profile-info-row">
+                <strong>Email Address</strong>
+                <span>{{ email }}</span>
+            </div>
+
+        </section>
+
+        <!-- Favourite Services -->
+        <section class="favorites-section">
+
+            <div class="favorites-heading">
+                <div>
+                    <h2>⭐ My Favourite Services</h2>
+                    <p>Your saved government services in one place.</p>
+                </div>
+
+                <span class="favorites-count">
+                    {{ favorites|length }} Saved
+                </span>
+            </div>
+
+            {% if favorites %}
+
+                <div class="favorites-grid">
+
+                    {% for service in favorites %}
+
+                        <article class="favorite-card">
+
+                            <div class="favorite-icon">⭐</div>
+
+                            <h3>{{ service.name }}</h3>
+
+                            <p>{{ service.description }}</p>
+
+                            <div class="favorite-actions">
+
+                                <a class="view-service-btn"
+                                   href="{{ url_for('details', service_key=service.service_key) }}">
+                                    View Service →
+                                </a>
+
+                                <form
+                                    action="{{ url_for('remove_favorite_route', service_key=service.service_key) }}"
+                                    method="POST">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                    <button class="remove-favorite-btn"
+                                            type="submit">
+                                        Remove Favourite
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-favorites">
+
+                    <div class="empty-favorites-icon">☆</div>
+
+                    <h3>No Favourite Services Yet</h3>
+
+                    <p>
+                        You haven't saved any government services yet.
+                        Browse the services and save your favourites here.
+                    </p>
+
+                    <a href="{{ url_for('home') }}"
+                       class="view-service-btn">
+                        Explore Services →
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+        <!-- Account Actions -->
+        <div class="account-actions">
+
+            <a href="{{ url_for('home') }}" class="back-home-btn">
+                ← Back to Home
+            </a>
+
+            <form action="{{ url_for('logout') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <p>Telangana Government Services Assistant</p>
+        <p>Information and links to Telangana government services</p>
+    </footer>
+
+</body>
+</html>
+```
